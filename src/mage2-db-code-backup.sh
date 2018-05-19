@@ -301,7 +301,7 @@ function createDbBackup()
     dbName=$(grep dbname "${M2_SRC_DIR}/app/etc/env.php" |cut -d "'" -f 4)
 
     # @todo option to skip log tables
-	mysqldump -h "$host" -u "$username" -p"$password" "$dbName" | gzip > "$M2_DB_BACKUP_FILE"
+	mysqldump -h "$host" -u "$username" -p"$password" "$dbName" | sed -e 's/DEFINER[ ]*=[ ]*[^*]*\*/\*/' | gzip > "$M2_DB_BACKUP_FILE"
 	_success "Done!"
 }
 
